@@ -60,7 +60,53 @@ class CurlForm(FlaskForm):
             "class": "form-control"
         }
     )
-    submit = SubmitField(
+    submit_curl= SubmitField(
+        'submit',
+        render_kw={
+            "class": "btn btn-default"
+        }
+    )
+
+
+class PingForm(FlaskForm):
+    args_id = StringField(
+        validators=[DataRequired("Please input your id"), Length(1, 64)],
+        render_kw={
+            "class": "form-control"
+        }
+    )
+    args_ipversion = StringField(
+        validators=[DataRequired("Please input your ip_version") ,Length(1, 64)],
+        render_kw={
+            "class": "form-control"
+        }
+    )
+    args_url = StringField(
+        validators = [DataRequired("Please input your url"),Length(1,64)],
+        render_kw = {
+        "class": "form-control"
+    }
+    )
+    args_packagesize = StringField(
+        validators=[DataRequired("Please input your packagesize"), Length(1, 64)],
+        render_kw={
+            "class": "form-control"
+        }
+    )
+    args_count = StringField(
+        validators=[DataRequired("Please input your count"), Length(1, 64)],
+        render_kw={
+            "class": "form-control"
+        }
+    )
+
+    args_timeout = StringField(
+        validators=[DataRequired("Please input your timeout"), Length(1, 64)],
+        render_kw={
+            "class": "form-control"
+        }
+    )
+    submit_ping= SubmitField(
         'submit',
         render_kw={
             "class": "btn btn-default"

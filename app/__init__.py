@@ -1,7 +1,7 @@
 from werkzeug.contrib.fixers import ProxyFix
 
 from flask import Flask
-from flask_bootstraps import Bootstrap
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 

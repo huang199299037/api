@@ -78,7 +78,6 @@ def data_query(tables):
 def insert_tables(tables,*kwargs):
     con = pymysql.connect(**db_config)
     cursor = con.cursor()
-    print (tables)
     if tables == "args_curl":
         try:
            sql = "INSERT INTO args_curl VALUES ('%d','%d','%s','%d')" % (kwargs[0],kwargs[1],kwargs[2],kwargs[3])
@@ -88,7 +87,7 @@ def insert_tables(tables,*kwargs):
             con.rollback()
     elif tables == "args_ping":
         try:
-             sql = """INSERT INTO args_ping VALUES("%s","%s","%s","%s","%s","%s")""" % (kwargs[0],kwargs[1],kwargs[2],kwargs[3],kwargs[4],kwargs[5])
+             sql = "INSERT INTO args_ping VALUES('%d','%d','%s','%d','%d','%d')" % (kwargs[0],kwargs[1],kwargs[2],kwargs[3],kwargs[4],kwargs[5])
              cursor.execute(sql)
              con.commit()
         except:

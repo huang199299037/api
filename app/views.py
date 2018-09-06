@@ -2,7 +2,7 @@ from flask import request, jsonify,render_template,redirect,flash,url_for,sessio
 from functools import wraps
 from app import app
 from .models import data_query,insert_tables
-from .forms import LoginForm,CurlForm
+from .forms import LoginForm,CurlForm,PingForm
 from .models import User
 from flask_login import login_user,login_required,logout_user
 
@@ -87,16 +87,28 @@ def charts():
 @app.route('/forms',methods=['GET','POST'])
 @login_required
 def forms():
-    form = CurlForm()
-    if form.validate_on_submit():
-        args_id=int(form.args_id.data)
-        args_ipversion=int(form.args_ipversion.data)
-        args_url=form.args_url.data
-        args_timeout=int(form.args_timeout.data)
+    form_curl = CurlForm()
+    if form_curl.submit_curl.data and form_curl.validate_on_submit():
+        args_id=int(form_curl.args_id.data)
+        args_ipversion=int(form_curl.args_ipversion.data)
+        args_url=form_curl.args_url.data
+        args_timeout=int(form_curl.args_timeout.data)
         insert_tables("args_curl",args_id,args_ipversion,args_url,args_timeout)
         flash("Insert succeed!")
         return redirect(url_for("forms"))
-    return render_template('forms.html',form=form)
+    form_ping = PingForm()
+    if form_ping.submit_ping.data and form_ping.validate_on_submit():
+        print("hello")
+        args_id = int(form_ping.args_id.data)
+        args_ipversion = int(form_ping.args_ipversion.data)
+        args_url = form_ping.args_url.data
+        args_packagesize = int(form_ping.args_packagesize.data)
+        args_count = int(form_ping.args_count.data)
+        args_timeout = int(form_ping.args_timeout.data)
+        insert_tables("args_ping", args_id, args_ipversion, args_url,args_packagesize,args_count, args_timeout)
+        flash("Insert succeed!")
+        return redirect(url_for("forms"))
+    return render_template('forms.html',form_ping=form_ping,form_curl=form_curl)
 
 
 
