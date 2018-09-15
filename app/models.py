@@ -15,6 +15,24 @@ class User(UserMixin,db.Model):
         return self.user_id
 
 
+class args_ping(db.Model):
+    __tablename__ = 'args_ping'
+    args_id=db.Column(db.Integer,primary_key=True)
+    args_ipversion = db.Column(db.Integer)
+    args_url=db.Column(db.String(100))
+    args_packagesize=db.Column(db.Integer)
+    args_count=db.Column(db.Integer)
+    args_timeout=db.Column(db.Integer)
+
+
+class args_curl(db.Model):
+    __tablename__='args_curl'
+    args_id=db.Column(db.Integer,primary_key=True)
+    args_ipversion=db.Column(db.Integer)
+    args_url=db.Column(db.String(45))
+    args_timeout=db.Column(db.Integer)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -80,14 +98,14 @@ def insert_tables(tables,*kwargs):
     cursor = con.cursor()
     if tables == "args_curl":
         try:
-           sql = "INSERT INTO args_curl VALUES ('%d','%d','%s','%d')" % (kwargs[0],kwargs[1],kwargs[2],kwargs[3])
+           sql = "INSERT INTO args_curl VALUES ('%d','%d','%s','%d')" % (0,kwargs[0],kwargs[1],kwargs[2])
            cursor.execute(sql)
            con.commit()
         except:
             con.rollback()
     elif tables == "args_ping":
         try:
-             sql = "INSERT INTO args_ping VALUES('%d','%d','%s','%d','%d','%d')" % (kwargs[0],kwargs[1],kwargs[2],kwargs[3],kwargs[4],kwargs[5])
+             sql = "INSERT INTO args_ping VALUES('%d','%d','%s','%d','%d','%d')" % (0,kwargs[0],kwargs[1],kwargs[2],kwargs[3],kwargs[4])
              cursor.execute(sql)
              con.commit()
         except:
