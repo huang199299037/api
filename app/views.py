@@ -1,11 +1,11 @@
 from flask import request, jsonify,render_template,redirect,flash,url_for,session
 from functools import wraps
 from app import app
-from .models import data_query,insert_tables
 from .forms import LoginForm,CurlForm,PingForm
 from .models import User,args_ping,args_curl
 from flask_login import login_user,login_required,logout_user
 from . import db
+from .of import get_endpoint_id,get_endpoint
 
 
 def require_appkey(view_function):
@@ -50,15 +50,21 @@ def logout():
 @app.route('/api/ping', methods=['GET'])
 # @require_appkey
 def ping():
-    results = data_query("args_ping")
-    return jsonify(results)
+    a_p=args_ping.query.all()
+    result = []
+    for tmp in a_p:
+        result.append(tmp.to_json())
+    return jsonify(result), 200
 
 
 @app.route('/api/curl', methods=['GET'])
 # @require_appkey
 def curl():
-    results = data_query("args_curl")
-    return jsonify(results)
+    a_c=args_curl.query.all()
+    result = []
+    for tmp in a_c:
+        result.append(tmp.to_json())
+    return jsonify(result), 200
 
 
 @app.route('/index',methods=['GET','POST'])
@@ -70,7 +76,15 @@ def index():
 @app.route('/dashboard',methods=['GET','POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    group = {
+        "endpoint_num": get_endpoint.get_endpoint_number(),
+        "liveendpoint_num": get_endpoint.get_live_endpoint_number(),
+        "pinglist_num": get_endpoint.get_pinglist_number(),
+        "curllist_num": get_endpoint.get_curllist_number()
+    }
+    res_list = get_endpoint_id.func2()
+
+    return render_template('dashboard.html', res_list=res_list, **group)
 
 
 @app.route('/tables',methods=['GET','POST'])
@@ -111,11 +125,14 @@ def curl_table():
 @login_required
 def curl_add():
     form_curl = CurlForm()
+    a_c=args_curl()
     if form_curl.submit_curl.data and form_curl.validate_on_submit():
-        args_ipversion = int(form_curl.args_ipversion.data)
-        args_url = form_curl.args_url.data
-        args_timeout = int(form_curl.args_timeout.data)
-        insert_tables("args_curl", args_ipversion, args_url, args_timeout)
+        a_c.args_id=0
+        a_c.args_ipversion = int(form_curl.args_ipversion.data)
+        a_c.args_url = form_curl.args_url.data
+        a_c.args_timeout = int(form_curl.args_timeout.data)
+        db.session.add(a_c)
+        db.session.commit()
         flash("Add Succeed!!")
         return redirect(url_for("curl_add"))
     return render_template('curl_add.html',form_curl=form_curl)
@@ -125,13 +142,16 @@ def curl_add():
 @login_required
 def ping_add():
     form_ping =PingForm()
+    a_p=args_ping()
     if form_ping.submit_ping.data and form_ping.validate_on_submit():
-        args_ipversion = int(form_ping.args_ipversion.data)
-        args_url = form_ping.args_url.data
-        args_packagesize = int(form_ping.args_packagesize.data)
-        args_count = int(form_ping.args_count.data)
-        args_timeout = int(form_ping.args_timeout.data)
-        insert_tables("args_ping", args_ipversion, args_url,args_packagesize,args_count, args_timeout)
+        a_p.args_id=0
+        a_p.args_ipversion = int(form_ping.args_ipversion.data)
+        a_p.args_url = form_ping.args_url.data
+        a_p.args_packagesize = int(form_ping.args_packagesize.data)
+        a_p.args_count = int(form_ping.args_count.data)
+        a_p.args_timeout = int(form_ping.args_timeout.data)
+        db.session.add(a_p)
+        db.session.commit()
         flash("Add Succeed!!")
         return redirect(url_for("ping_add"))
     return render_template('ping_add.html',form_ping=form_ping)

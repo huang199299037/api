@@ -1,5 +1,3 @@
-import pymysql
-from config import db_config,args_curl,args_ping,users
 from flask_login import UserMixin
 from . import db,login_manager
 
@@ -24,6 +22,12 @@ class args_ping(db.Model):
     args_count=db.Column(db.Integer)
     args_timeout=db.Column(db.Integer)
 
+    def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
 
 class args_curl(db.Model):
     __tablename__='args_curl'
@@ -32,84 +36,27 @@ class args_curl(db.Model):
     args_url=db.Column(db.String(45))
     args_timeout=db.Column(db.Integer)
 
+    def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
+
+class Map(db.Model):
+    __tablename__ = 'map'
+    map_id = db.Column(db.Integer,primary_key=True, nullable=False)
+    map_desc = db.Column(db.String(255))
+    map_ofid = db.Column(db.Integer,nullable=False)
+    map_ofname = db.Column(db.String(255),nullable=False)
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-def data_query(tables):
-    con = pymysql.connect(**db_config)
-    cursor = con.cursor()
-    if tables == "users":
-        try:
-            sql = """select * from users"""
-            cursor.execute(sql)
-        except:
-            print("There is no table named users")
-            con.rollback()
-        row_users = cursor.fetchall()
-        user_list=list()
-        for i in range(len(row_users)):
-            user_dict = dict()
-            for j in range(len(users)):
-                user_dict[users[j]]=row_users[i][j]
-            user_list.append(user_dict)
-        return user_list
-    elif tables == "args_ping":
-        try:
-           sql = """select * from args_ping"""
-           cursor.execute(sql)
-        except:
-            print("There is no table named args_ping")
-            con.rollback()
-        row_ping = cursor.fetchall()
-        # con.close()
-        ping_list = list()
-        for i in range(len(row_ping)):
-            ping_dict = dict()
-            for j in range(len(args_ping)):
-                if j==0:
-                    continue
-                ping_dict[args_ping[j]] = row_ping[i][j]
-            ping_list.append(ping_dict)
-        return ping_list
 
-    elif tables == "args_curl":
-        try:
-             sql = """select * from args_curl """
-             cursor.execute(sql)
-        except:
-            print("There is no table named args_curl")
-            con.rollback()
-        row_curl = cursor.fetchall()
-        # con.close()
-        curl_list = []
-        for i in range(len(row_curl)):
-            curl_dict = {}
-            for j in range(len(args_curl)):
-                curl_dict[args_curl[j]] = row_curl[i][j]
-            curl_list.append(curl_dict)
-        return curl_list
-
-
-def insert_tables(tables,*kwargs):
-    con = pymysql.connect(**db_config)
-    cursor = con.cursor()
-    if tables == "args_curl":
-        try:
-           sql = "INSERT INTO args_curl VALUES ('%d','%d','%s','%d')" % (0,kwargs[0],kwargs[1],kwargs[2])
-           cursor.execute(sql)
-           con.commit()
-        except:
-            con.rollback()
-    elif tables == "args_ping":
-        try:
-             sql = "INSERT INTO args_ping VALUES('%d','%d','%s','%d','%d','%d')" % (0,kwargs[0],kwargs[1],kwargs[2],kwargs[3],kwargs[4])
-             cursor.execute(sql)
-             con.commit()
-        except:
-            con.rollback()
 
 
 

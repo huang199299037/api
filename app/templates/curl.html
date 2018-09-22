@@ -46,7 +46,12 @@
                                 <tbody>
                                 <tr>
                                     <td>{{ a_c.args_id }}</td>
-                                    <td>{{ a_c.args_ipversion }}</td>
+                                    <td>{% if a_c.args_ipversion==0 %}
+                                        ipv4
+                                        {% else %}
+                                        ipv6
+                                        {% endif %}
+                                    </td>
                                     <td>{{ a_c.args_url}}</td>
                                     <td>{{ a_c.args_timeout}}</td>
                                     <td><a href="{{ url_for('curl_update',id=a_c.args_id) }}"

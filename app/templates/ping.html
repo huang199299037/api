@@ -48,7 +48,12 @@
                                 <tbody>
                                 <tr>
                                     <td>{{ a_p.args_id }}</td>
-                                    <td>{{ a_p.args_ipversion }}</td>
+                                    <td>{% if a_p.args_ipversion==0 %}
+                                        ipv4
+                                        {% else %}
+                                        ipv6
+                                        {% endif %}
+                                    </td>
                                     <td>{{ a_p.args_url}}</td>
                                     <td>{{ a_p.args_packagesize}}</td>
                                     <td>{{ a_p.args_count}}</td>
