@@ -2,7 +2,7 @@ from flask import request, jsonify,render_template,redirect,flash,url_for,sessio
 from functools import wraps
 from app import app
 from .forms import LoginForm,CurlForm,PingForm
-from .models import User,args_ping,args_curl
+from .models import User,args_ping,args_curl,Map
 from flask_login import login_user,login_required,logout_user
 from . import db
 from .of import get_endpoint_id,get_endpoint
@@ -215,6 +215,55 @@ def curl_update(id=None):
 @login_required
 def forms():
     return render_template('forms.html')
+
+
+@app.route('/api/push/<endpoint_name>/<endpoint_id>/')
+def endpoint_name_id(endpoint_name, endpoint_id):
+    '''
+
+    :param endpoint_name:
+    :param endpoint_id:
+    :return:
+    '''
+    map = Map.query.filter_by(map_ofid=endpoint_id).first()
+    if map is not None:
+        return "ERROR : the endpoint is already in database !"
+    else:
+        map = Map(map_ofid=endpoint_id, map_ofname=endpoint_name)
+        db.session.add(map)
+        db.session.commit()
+        return "success !!!"
+
+
+@app.route('/mapconfig/')
+def mapconfig():
+    maplist = Map.query.filter_by().all()
+
+    # print(type(maplist))
+    # print(maplist)
+    # print(type(maplist[0]))
+    # print(maplist[0].map_id)
+    return render_template('map_config.html', maplists=maplist)
+
+
+@app.route('/mapdetail/<mapid>/', methods=['GET', 'POST'])
+def mapdetail(mapid):
+    if request.method == 'GET':
+        # print(mapid)
+        map = Map.query.filter_by(map_id=mapid).first()
+        # print(map[0])
+        return render_template('mapdetail.html', map=map)
+    else:
+        desc = request.form.get('map_desc')
+        print(desc)
+        if desc == '':
+            return redirect(url_for('mapconfig'))
+        else:
+            map = Map.query.filter_by(map_id=mapid).first()
+            map.map_desc = desc
+            db.session.add(map)
+            db.session.commit()
+            return redirect(url_for('mapconfig'))
 
 
 
