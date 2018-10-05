@@ -1,7 +1,7 @@
 from flask import request, jsonify,render_template,redirect,flash,url_for,session
 from functools import wraps
 from app import app
-from .forms import LoginForm,CurlForm,PingForm
+from .forms import  LoginForm,CurlForm,PingForm
 from .models import User,args_ping,args_curl,Map
 from flask_login import login_user,login_required,logout_user
 from . import db
@@ -209,6 +209,30 @@ def curl_update(id=None):
         flash("Update Succeed!!")
         return redirect(url_for('curl_table'))
     return render_template('curl_update.html',form=form,result=result)
+
+
+@app.route("/ping_search", methods=['GET', 'POST'])
+@login_required
+def ping_search():
+    key=request.args.get("key","")
+    page = int(request.args.get('page', 1, type=int))
+    per_page = int(request.args.get('per_page', 5))
+    pagination = args_ping.query.filter(
+        args_ping.args_url.ilike("%"+key+"%")
+        ).paginate(page, per_page, error_out=False)
+    return render_template("ping_search.html",pagination=pagination)
+
+
+@app.route("/curl_search", methods=['GET', 'POST'])
+@login_required
+def curl_search():
+    key=request.args.get("key","")
+    page = int(request.args.get('page', 1, type=int))
+    per_page = int(request.args.get('per_page', 5))
+    pagination = args_curl.query.filter(
+        args_curl.args_url.ilike("%"+key+"%")
+        ).paginate(page, per_page, error_out=False)
+    return render_template("curl_search.html",pagination=pagination)
 
 
 @app.route('/forms',methods=['GET','POST'])

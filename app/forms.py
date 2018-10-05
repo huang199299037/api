@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,BooleanField,SubmitField,SelectField
-from wtforms.validators import DataRequired,Length
+from wtforms.validators import DataRequired,Length,Regexp
 
 
 class LoginForm(FlaskForm):
@@ -45,7 +45,13 @@ class CurlForm(FlaskForm):
     )
     args_url = StringField(
         label='url',
-        validators = [DataRequired("Please input your url"),Length(1,64)],
+        validators = [DataRequired(),Length(1,64),
+                      Regexp("^(((ht|f)tp(s?))\://)?"
+                             "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
+                             "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
+                             "(\:[0-9]+)*"
+                             "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$",0,'url is invalid'
+                             )],
         render_kw = {
         "class": "form-control"
     }
@@ -77,7 +83,13 @@ class PingForm(FlaskForm):
     )
     args_url = StringField(
         label='url',
-        validators = [DataRequired("Please input your url"),Length(1,64)],
+        validators = [DataRequired(),Length(1,64),
+                      Regexp("^(((ht|f)tp(s?))\://)?"
+                            "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
+                            "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
+                            "(\:[0-9]+)*"
+                            "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$",0,"url is invalid"
+                            )],
         render_kw = {
         "class": "form-control"
     }
@@ -110,3 +122,6 @@ class PingForm(FlaskForm):
             "class": "btn btn-default"
         }
     )
+
+
+
