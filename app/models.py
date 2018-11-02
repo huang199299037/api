@@ -1,13 +1,14 @@
 from flask_login import UserMixin
-from . import db,login_manager
+from . import db, login_manager
 
 
-class User(UserMixin,db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer,primary_key=True)
-    user_name = db.Column(db.String(64),unique=True,index=True)
-    user_passwd = db.Column(db.String(256),index=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(64), unique=True, index=True)
+    user_passwd = db.Column(db.String(256), index=True)
     user_admin = db.Column(db.Integer)
+
     @property
     def id(self):
         return self.user_id
@@ -15,12 +16,12 @@ class User(UserMixin,db.Model):
 
 class args_ping(db.Model):
     __tablename__ = 'args_ping'
-    args_id=db.Column(db.Integer,primary_key=True)
+    args_id = db.Column(db.Integer, primary_key=True)
     args_ipversion = db.Column(db.Integer)
-    args_url=db.Column(db.String(100))
-    args_packagesize=db.Column(db.Integer)
-    args_count=db.Column(db.Integer)
-    args_timeout=db.Column(db.Integer)
+    args_url = db.Column(db.String(100))
+    args_packagesize = db.Column(db.Integer)
+    args_count = db.Column(db.Integer)
+    args_timeout = db.Column(db.Integer)
 
     def to_json(self):
         dict = self.__dict__
@@ -30,11 +31,11 @@ class args_ping(db.Model):
 
 
 class args_curl(db.Model):
-    __tablename__='args_curl'
-    args_id=db.Column(db.Integer,primary_key=True)
-    args_ipversion=db.Column(db.Integer)
-    args_url=db.Column(db.String(45))
-    args_timeout=db.Column(db.Integer)
+    __tablename__ = 'args_curl'
+    args_id = db.Column(db.Integer, primary_key=True)
+    args_ipversion = db.Column(db.Integer)
+    args_url = db.Column(db.String(45))
+    args_timeout = db.Column(db.Integer)
 
     def to_json(self):
         dict = self.__dict__
@@ -45,21 +46,22 @@ class args_curl(db.Model):
 
 class Map(db.Model):
     __tablename__ = 'map'
-    map_id = db.Column(db.Integer,primary_key=True, nullable=False)
+    map_id = db.Column(db.Integer, primary_key=True, nullable=False)
     map_desc = db.Column(db.String(255))
-    map_ofid = db.Column(db.Integer,nullable=False)
-    map_ofname = db.Column(db.String(255),nullable=False)
+    map_ofid = db.Column(db.Integer, nullable=False)
+    map_ofname = db.Column(db.String(255), nullable=False)
+
+
+class Curl_Res(db.Model):
+    __tablename__ = 'curl_res'
+    curl_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    curl_endpoint = db.Column(db.String(255))
+    curl_ipversion = db.Column(db.String(255))
+    curl_targeturl = db.Column(db.String(255))
+    curl_timestamp = db.Column(db.String(255))
+    curl_value = db.Column(db.Float)
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-
-
-
-
-
-
-

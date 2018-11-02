@@ -45,16 +45,16 @@ class CurlForm(FlaskForm):
     )
     args_url = StringField(
         label='url',
-        validators = [DataRequired(),Length(1,64),
-                      Regexp("^(((ht|f)tp(s?))\://)?"
-                             "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
-                             "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
-                             "(\:[0-9]+)*"
-                             "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$",0,'url is invalid'
-                             )],
-        render_kw = {
-        "class": "form-control"
-    }
+        validators=[DataRequired(), Length(1, 64),
+                    Regexp("^(((ht|f)tp(s?))\://)?"
+                           "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
+                           "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
+                           "(\:[0-9]+)*"
+                           "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$", 0, 'url is invalid'
+                           )],
+        render_kw={
+            "class": "form-control"
+        }
     )
 
     args_timeout = StringField(
@@ -83,16 +83,16 @@ class PingForm(FlaskForm):
     )
     args_url = StringField(
         label='url',
-        validators = [DataRequired(),Length(1,64),
-                      Regexp("^(((ht|f)tp(s?))\://)?"
-                            "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
-                            "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
-                            "(\:[0-9]+)*"
-                            "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$",0,"url is invalid"
-                            )],
-        render_kw = {
-        "class": "form-control"
-    }
+        validators=[DataRequired(), Length(1, 64),
+                    Regexp("^(((ht|f)tp(s?))\://)?"
+                           "(www.|[a-zA-Z].)[a-zA-Z0-9\-\.]+\."
+                           "(com|edu|gov|mil|net|org|biz|info|name|museum|us|ca|uk)"
+                           "(\:[0-9]+)*"
+                           "(/($|[a-zA-Z0-9\.\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*$", 0, "url is invalid"
+                           )],
+        render_kw={
+            "class": "form-control"
+        }
     )
     args_packagesize = StringField(
         label='packetagesize',
@@ -122,6 +122,3 @@ class PingForm(FlaskForm):
             "class": "btn btn-default"
         }
     )
-
-
-

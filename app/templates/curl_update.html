@@ -27,7 +27,11 @@
               </div>
               <div class="form-group ">
                   <label class="control-label" >url</label>
+                  <label class="control-label" >url</label>
                   {{form.args_url(value=result.args_url)}}
+                  {% for err in form.args_url.errors %}
+                  <span style="color: red">{{ err }}</span>
+                    {% endfor %}
               </div>
               <div class="form-group ">
                   <label class="control-label" >timeout</label>

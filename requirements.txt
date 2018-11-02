@@ -7,6 +7,7 @@ cryptography==2.3.1
 dominate==2.3.1
 Flask==1.0.2
 Flask-Bootstrap==3.3.7.1
+Flask-Bootstraps==3.3.7.8
 Flask-Login==0.4.1
 Flask-SQLAlchemy==2.3.2
 Flask-WTF==0.14.2

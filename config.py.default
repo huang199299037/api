@@ -9,6 +9,13 @@ SECRET_KEY = '*'
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://<username>:<password>@localhost/<database_name>'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+# openfalcon user
+name = ""
+# openfalcon passwd
+password = ""
+# apiaddr ip is openfalcon server ip
+api_addr = "http://*:8080/api/v1"
+
 
 
 

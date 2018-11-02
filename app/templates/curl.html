@@ -22,7 +22,7 @@
                 <div class="form-group input-group">
                     <input type="text" class="form-control" id="key" placeholder="please input your url key word">
                     <span class="input-group-btn">
-                  <button class="btn btn-default" id="search" type="button"><i class="fa fa-search"></i></button>
+                    <a class="btn btn-default" id="search" type="button"><i class="fa fa-search"></i></a>
                 </span>
                 </div>
                 <div class="panel panel-primary">
@@ -86,7 +86,6 @@
 
 </div><!-- /#wrapper -->
 {% endblock %}
-
 {% block scripts %}
 {{super()}}
 <script type=text/javascript>
@@ -95,7 +94,6 @@
             location.href="{{ url_for("curl_search") }}?key="+key;
         });
 </script>
-
 {% endblock %}
 
 </html>

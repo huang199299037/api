@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+
 {% extends "base.html" %}
+
 {% block content %}
 <div id="wrapper">
     <div class="copyrights">Collect from <a href="http://www.mycodes.net/" title="网站模板">网站模板</a></div>
@@ -143,6 +143,11 @@
                     <script src="{{url_for('static',filename='js/echarts.min.js')}}"></script>
                     <script type="text/javascript">
                         var myChart = echarts.init(document.getElementById('piechart'));
+
+
+                        js_object = eval('(' + '{{ res_num|safe }}' + ')');
+                        console.log(js_object['num1']);
+
                         option = {
                             title: {
                                 text: '网站延迟时间',
@@ -156,7 +161,7 @@
                             legend: {
                                 orient: 'vertical',
                                 left: 'left',
-                                data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+                                data: ['0~10', '10~50', '50~100', '100~200', '200+']
                             },
                             series: [
                                 {
@@ -165,11 +170,11 @@
                                     radius: '55%',
                                     center: ['50%', '60%'],
                                     data: [
-                                        {value: 335, name: '直接访问'},
-                                        {value: 310, name: '邮件营销'},
-                                        {value: 234, name: '联盟广告'},
-                                        {value: 135, name: '视频广告'},
-                                        {value: 1548, name: '搜索引擎'}
+                                        {value: js_object['num1'], name: '0~10'},
+                                        {value: js_object['num2'], name: '10~50'},
+                                        {value: js_object['num3'], name: '50~100'},
+                                        {value: js_object['num4'], name: '100~200'},
+                                        {value: js_object['num5'], name: '200+'}
                                     ],
                                     itemStyle: {
                                         emphasis: {
@@ -181,6 +186,7 @@
                                 }
                             ]
                         };
+
                         myChart.setOption(option);
                     </script>
                 </div>
@@ -205,11 +211,11 @@
                                 <tbody>
                                 {% for res in res_list %}
                                 <tr>
-                                    <td>{{ res['endpoint']}}</td>
-                                    <td>{{ res['counter'][29:33] }}</td>
-                                    <td>{{ res['counter'][42:] }}</td>
-                                    <td>{{ res['Values'][0]['timestamp'] }}</td>
-                                    <td>{{ res['Values'][0]['value'] }}</td>
+                                    <td>{{ res['curl_endpoint']}}</td>
+                                    <td>{{ res['curl_ipversion'] }}</td>
+                                    <td>{{ res['curl_targeturl'] }}</td>
+                                    <td>{{ res['curl_timestamp'] }}</td>
+                                    <td>{{ res['curl_value'] }}</td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>

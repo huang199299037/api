@@ -32,9 +32,10 @@
                             <td>{{ map.map_ofname }}</td>
                             <td>{{ map.map_ofid }}</td>
                             <td>{{ map.map_desc }}</td>
-                            <td><a href="{{ url_for('mapdetail',mapid = map.map_id) }}">Detail</a></td>
+                            <td><a href="{{ url_for('map.mapdetail',mapid = map.map_id) }}">Detail</a></td>
                         </tr>
                         {% endfor %}
+
 
 
                         </tbody>
