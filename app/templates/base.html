@@ -55,9 +55,6 @@
                     <li><a href="{{url_for('curl_table')}}">Curl</a></li>
                 </ul>
             </li>
-            <!--<li><a href="{{url_for('charts')}}"><i class="fa fa-bar-chart-o"></i> Charts</a></li>-->
-            <!--<li><a href="{{url_for('tables')}}"><i class="fa fa-table"></i> Tables</a></li>-->
-            <!--<li><a href="{{url_for('forms')}}"><i class="fa fa-edit"></i> Forms</a></li>-->
             <li><a href="{{url_for('map.mapconfig')}}"><i class="fa fa-edit"></i> Map Config </a></li>
             <li><a href="{{url_for('endpoint.endpoint_detail')}}"><i class="fa fa-edit"></i> Endpoint Detail </a></li>
             <li><a href="{{url_for('openfalcon')}}"><i class="fa fa-edit"></i> OpenFalcon Detail </a></li>
@@ -147,15 +144,9 @@
 <!--<script src="{{url_for('static',filename='js/raphael-min.js')}}"></script>-->
 <script src="{{url_for('static',filename='js/morris-0.4.3.min.js')}}"></script>
 <script src="{{url_for('static',filename='js/morris/chart-data-morris.js')}}"></script>
-<script src="{{url_for('static',filename='js/tablesorter/jquery.tablesorter.js')}}"></script>
-<script src="{{url_for('static',filename='js/tablesorter/tables.js')}}"></script>
 <!--[if lte IE 8]>
 <script src="{{url_for('static',filename='js/excanvas.min.js')}}"></script><![endif]-->
-<script src="{{url_for('static',filename='js/flot/jquery.flot.js')}}"></script>
-<script src="{{url_for('static',filename='js/flot/jquery.flot.tooltip.min.js')}}"></script>
-<script src="{{url_for('static',filename='js/flot/jquery.flot.resize.js')}}"></script>
-<script src="{{url_for('static',filename='js/flot/jquery.flot.pie.js')}}"></script>
-<script src="{{url_for('static',filename='js/flot/chart-data-flot.js')}}"></script>
+
 {% endblock %}
 
 </html>

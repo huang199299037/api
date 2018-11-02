@@ -88,15 +88,6 @@ def get_res_num():
     res_num = get_curl_res.get_pie_arg()
     return json.dumps(res_num)
 
-@app.route('/tables', methods=['GET', 'POST'])
-def tables():
-    return render_template('tables.html')
-
-
-@app.route('/charts', methods=['GET', 'POST'])
-def charts():
-    return render_template('charts.html')
-
 
 @app.route("/ping", methods=['GET', 'POST'])
 def ping_table():
@@ -224,11 +215,6 @@ def curl_search():
         args_curl.args_url.ilike("%"+key+"%")
         ).paginate(page, per_page, error_out=False)
     return render_template("curl_search.html",pagination=pagination)
-
-
-@app.route('/forms', methods=['GET', 'POST'])
-def forms():
-    return render_template('forms.html')
 
 
 @app.route('/api/push/<endpoint_name>/<endpoint_id>/')
