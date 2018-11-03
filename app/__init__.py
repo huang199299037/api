@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static-admin')
 app.config.from_object('config')
 app.wsgi_app = ProxyFix(app.wsgi_app)
 db = SQLAlchemy(app)
